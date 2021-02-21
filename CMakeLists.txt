@@ -8,6 +8,4 @@ project(
 	LANGUAGES C CXX
 )
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
-
 add_subdirectory("RSDKv3")
