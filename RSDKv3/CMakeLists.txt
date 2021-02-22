@@ -11,6 +11,7 @@ set(DEPENDENCIES_DIR "${CMAKE_SOURCE_DIR}/dependencies")
 set(THEORAPLAY_DIR "${DEPENDENCIES_DIR}/all/theoraplay")
 set(GHC_FILESYSTEM_DIR "${DEPENDENCIES_DIR}/all/filesystem")
 
+# Theoraplay
 add_library(
 	theoraplay
 	STATIC
@@ -19,15 +20,20 @@ add_library(
 	"${THEORAPLAY_DIR}/theoraplay.c"
 )
 target_include_directories(theoraplay PUBLIC "${THEORAPLAY_DIR}")
-target_link_libraries(theoraplay PRIVATE Threads::Threads)
-target_link_libraries(theoraplay PRIVATE ${VORBIS_LIBRARIES})
-target_link_libraries(theoraplay PRIVATE ${THEORADEC_LIBRARIES})
+target_link_libraries(
+	theoraplay
+	PRIVATE Threads::Threads
+	PRIVATE ${VORBIS_LIBRARIES}
+	PRIVATE ${THEORADEC_LIBRARIES}
+)
 
+# Gulrak Filesystem
 add_subdirectory(
 	"${GHC_FILESYSTEM_DIR}"
 	"${GHC_FILESYSTEM_DIR}/build"
 )
 
+# RSDKv3
 add_executable(
 	soniccd
 	Animation.hpp Animation.cpp
@@ -56,7 +62,10 @@ add_executable(
 	Video.hpp Video.cpp
 )
 target_include_directories(soniccd PRIVATE ${SDL2_INCLUDE_DIRS})
-target_link_libraries(soniccd PRIVATE ${SDL2_LIBRARIES})
-target_link_libraries(soniccd PRIVATE theoraplay)
-target_link_libraries(soniccd PRIVATE ghc_filesystem)
-target_link_libraries(soniccd PRIVATE ${VORBISFILE_LIBRARIES})
+target_link_libraries(
+	soniccd
+	PRIVATE theoraplay
+	PRIVATE ghc_filesystem
+	PRIVATE ${SDL2_LIBRARIES}
+	PRIVATE ${VORBISFILE_LIBRARIES}
+)
